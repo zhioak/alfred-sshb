@@ -106,10 +106,15 @@
         if not (isRunning) then
             -- 给应用启动时间
             delay 0.5
-            -- 关闭默认窗口
-            close the current window
+
+            -- 存储默认窗口
+			set oldWindow to current window
+
 			-- 创建组窗口
         		set groupWindows to create window with profile profilename 
+        		
+        		-- 在新建后再关闭默认窗口，避免因为没窗口程序退出了
+			close the oldWindow
 		else
 			-- 创建组窗口
 			set groupWindows to create window with profile profilename 
@@ -135,8 +140,8 @@
                 set name of current session to h
                 
                 -- 传递执行脚本
-                -- tell current session to write text "sshb -c '" &amp; runcmd &amp; "' -r " &amp; h
-                tell current session to write text "echo 1"
+                tell current session to write text "sshb -c '" &amp; runcmd &amp; "' -r " &amp; h
+                -- tell current session to write text "echo 1"
             end repeat
             
             -- 关闭默认tab
@@ -180,7 +185,7 @@ https://github.com/zhiozhou/alfred-sshb</string>
 		<key>49A82281-E308-4DCD-9DE7-880C0DC57F0C</key>
 		<dict>
 			<key>xpos</key>
-			<real>335</real>
+			<real>330</real>
 			<key>ypos</key>
 			<real>165</real>
 		</dict>
