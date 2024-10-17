@@ -251,7 +251,7 @@ https://github.com/zhiozhou/alfred-sshb</string>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>1.0.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/zhiozhou/alfred-sshb/</string>
 </dict>
