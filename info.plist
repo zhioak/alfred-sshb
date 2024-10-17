@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string></string>
+	<string>priv.zhio</string>
 	<key>connections</key>
 	<dict>
 		<key>7D9DF57A-5DF9-5DB9-AB88-88DAC6AD7FB1</key>
@@ -173,7 +173,8 @@ end split</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>SSHB适配Alfred工作流，更多查看
+https://github.com/zhiozhou/alfred-sshb</string>
 	<key>uidata</key>
 	<dict>
 		<key>49A82281-E308-4DCD-9DE7-880C0DC57F0C</key>
@@ -242,9 +243,11 @@ end split</string>
 			<string>hosts</string>
 		</dict>
 	</array>
+	<key>variablesdontexport</key>
+	<array/>
 	<key>version</key>
 	<string>1.0.0</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://github.com/zhiozhou/alfred-sshb/</string>
 </dict>
 </plist>
