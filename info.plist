@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>connections</key>
+	<dict>
+		<key>7D9DF57A-5DF9-5DB9-AB88-88DAC6AD7FB1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>49A82281-E308-4DCD-9DE7-880C0DC57F0C</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>zhio</string>
+	<key>description</key>
+	<string>SSH Bastionhost</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>SSH Bastionhost</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>sshb</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Please Wait</string>
+				<key>script</key>
+				<string></string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>entrypoint.py</string>
+				<key>subtext</key>
+				<string>SSH Bastionhost</string>
+				<key>title</key>
+				<string>SSHB</string>
+				<key>type</key>
+				<integer>8</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7D9DF57A-5DF9-5DB9-AB88-88DAC6AD7FB1</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>on run {argv}
+    
+    -- 获取配置，参考 https://www.alfredapp.com/help/kb/reading-environment-variables/
+    set profilename to (system attribute "profilename")
+
+    tell application "System Events"
+
+		-- 检查iTerm是否运行。部分版本为iTerm2
+        set isRunning to (exists (processes where name is "iTerm")) or (exists (processes where name is "iTerm2"))
+    end tell
+
+    tell application "iTerm"
+		-- 激活iTerm
+        activate
+        
+        -- 未运行
+        if not (isRunning) then
+            -- 给应用启动时间
+            delay 0.5
+            -- 关闭默认窗口
+            close the current window
+			-- 创建组窗口
+        		set groupWindows to create window with profile profilename 
+		else
+			-- 创建组窗口
+			set groupWindows to create window with profile profilename 
+        end if
+
+        tell the groupWindows
+        
+            -- 解析参数
+            set args to my split(argv, "_&amp;_")
+            set groupName to text item 1 of args
+            set runcmd to text item 2 of args
+            set hostsStr to text item 3 of args
+            set hosts to my split(hostsStr, ",")
+            repeat with i from 1 to count of hosts
+                set h to item i of hosts as string
+                
+                -- 创建新的标签页
+                create tab with profile profilename
+			
+	    			-- 设置窗口名称
+                tell current session to write text "echo -ne '\\e]2;" &amp; groupName &amp; "\\a';clear;"
+                -- 设置会话名称
+                set name of current session to h
+                
+                -- 传递执行脚本
+                -- tell current session to write text "sshb -c '" &amp; runcmd &amp; "' -r " &amp; h
+                tell current session to write text "echo 1"
+            end repeat
+            
+            -- 关闭默认tab
+            tell first tab to close
+
+        end tell
+    end tell
+end run
+
+-- 分割函数
+on split(str, delimiter)
+    -- 设置文本分隔符
+    set AppleScript's text item delimiters to delimiter
+    -- 分割文本
+    set splited to text items of str
+    -- 重置文本分隔符
+    set AppleScript's text item delimiters to ""
+    -- 响应结果
+    return splited
+end split</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>49A82281-E308-4DCD-9DE7-880C0DC57F0C</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>49A82281-E308-4DCD-9DE7-880C0DC57F0C</key>
+		<dict>
+			<key>xpos</key>
+			<real>335</real>
+			<key>ypos</key>
+			<real>165</real>
+		</dict>
+		<key>7D9DF57A-5DF9-5DB9-AB88-88DAC6AD7FB1</key>
+		<dict>
+			<key>xpos</key>
+			<real>125</real>
+			<key>ypos</key>
+			<real>160</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>Default</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>启动的iTerm Profile名称</string>
+			<key>label</key>
+			<string>iTerm Profile Name</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>profilename</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>[{
+	"name": "Gateway",
+	"tag": ["UAT"],
+	"host": ["10.10.0.1", "10.10.0.2"],
+	"command": "pwd",
+	"icon": ""
+}]</string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+				<key>verticalsize</key>
+				<integer>9</integer>
+			</dict>
+			<key>description</key>
+			<string>主机组配置</string>
+			<key>label</key>
+			<string>Host Group Config</string>
+			<key>type</key>
+			<string>textarea</string>
+			<key>variable</key>
+			<string>hosts</string>
+		</dict>
+	</array>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
